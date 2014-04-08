@@ -16,7 +16,8 @@ class Theme {
         'widgets' => array(),
         'commentFields' => array(),
         'help' => true,
-        'shortcodes' => array()
+        'shortcodes' => array(),
+        'post-formats'=> array()
     );
 
     function __construct($options = array()){
@@ -54,6 +55,7 @@ class Theme {
         $this->images();
         $this->options();
         $this->sidebar();
+        $this->post_formats();
 
         require(THEME_FRAMEWORK.'functions/functions.php');
     }
@@ -208,6 +210,12 @@ class Theme {
     function commentMetas($comment_id){
         foreach($this->options['commentFields'] as $v){
             add_comment_meta( $comment_id, $v, str_replace('@','',$_POST[$v]), true );
+        }
+    }
+    
+    function post_formats(){
+        if(!empty($this->options['post-formats'])){
+            add_theme_support( 'post-formats',$this->options['post-formats']);
         }
     }
 
